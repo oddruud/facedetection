@@ -21,6 +21,5 @@ async def find_face_endpoint(
     imageStream = io.BytesIO(image)
     imageFile = Image.open(imageStream).convert('RGB')
     person_id, bounding_box = detect_face(imageFile)
-    print ("bounding box X: ", str(bounding_box["x"]))
     return {"person": person_id, "bounding_box": {"x": bounding_box["x"], "y": bounding_box["y"], "width": bounding_box["width"], "height": bounding_box["height"]}}
 

@@ -2,10 +2,11 @@
     {"name": "Natalie", "photo_id": "natalie"},
     {"name": "Depp", "photo_id": "depp"},
     {"name": "Brad", "photo_id": "brad"},
+    {"name": "Karthik", "photo_id": "khartic"},
     {"name": "Lucas", "photo_id": "lucas"},
     {"name": "Ralph", "photo_id": "ralph"},
     {"name": "Wietze", "photo_id": "wietze"},
     {"name": "Ruud", "photo_id": "ruud"},
-    {"name": "Person1", "photo_id": "person1"},
-    {"name": "Person2", "photo_id": "person2"}
+    {"name": "Hugo", "photo_id": "hugo"},
+    {"name": "Niels", "photo_id": "niels"}
 ]
