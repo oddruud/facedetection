@@ -1,5 +1,6 @@
 from deepface import DeepFace
 import json
+import numpy as np
 
 models = [
   "VGG-Face", 
@@ -25,14 +26,16 @@ backends = [
 
 metrics = ["cosine", "euclidean", "euclidean_l2"]
 
+#def create_embedding_nearest_neighbors_database():
+    
 
 
 def test_face_detect_models():
-    test_img_path = "test_data/test.jpg"
-    test_img_path2 = "test_data/test2.jpg"
-    natalie_test_img = "test_data/natalie.png"
+    test_img_path = "data/test.jpg"
+    test_img_path2 = "data/test2.jpg"
+    natalie_test_img = "data/natalie.png"
 
-    database = "test_data/database"
+    database = "data/database"
 
     for model in models:
         for backend in backends:
@@ -48,16 +51,24 @@ def test_face_detect_models():
                 print("FIND RESULT", dfs)
 
 
-def detect_face(image_path):
+def detect_face(pillow_image):
     model = "VGG-Face"
     backend = "yunet"
     metric = "cosine"
-    database = "test_data/database"
+    database = "data/database"
+    
+    person_id = "unknown"
+    bounding_box = {"x":0, "y":0, "width":0, "height":0}
     
     #spotify annoy
+    image_numpy = np.array(pillow_image)
+    width = float(image_numpy.shape[1])
+    height = float(image_numpy.shape[0])
+    
+    print("width: ", width, ", height: ", height)
     
     #model:  Facenet , backend:  yunet , distance metric:  euclidean_l2
-    dfs = DeepFace.find(img_path = image_path, 
+    dfs = DeepFace.find(img_path = image_numpy, 
             db_path = database, 
             model_name= model,
             distance_metric = metric,
@@ -69,18 +80,26 @@ def detect_face(image_path):
     
    # print("image to person lookup json: " + image_to_person_lookup) 
     if dfs is None:
-            return "Unknown"
+            return person_id, bounding_box
     
     if len(dfs) == 0:
-        return "Unknown"
+        return person_id, bounding_box
     
     if len(dfs[0].identity) == 0:
-        return "Unknown"
+        return person_id, bounding_box
     
     print("dfs: ", dfs)
     identity = dfs[0].identity[0]
+    
     for people in image_to_person_lookup:
         if len(dfs) > 0 and people["photo_id"] in identity:
-            return people["name"]
+            person_id = people["name"]
+            #normalized
+            bounding_box["x"] = float(dfs[0].source_x[0]) / width
+            bounding_box["y"] = float(dfs[0].source_y[0]) / height
+            bounding_box["width"] = float(dfs[0].source_w[0]) / width
+            bounding_box["height"] = float(dfs[0].source_h[0]) / height
+            
+            return person_id, bounding_box
     
-    return "Unknown"
+    return person_id, bounding_box

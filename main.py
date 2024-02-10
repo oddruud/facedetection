@@ -5,7 +5,7 @@ from fastapi.responses import (
     Response,
     StreamingResponse
 )
-
+import numpy as np
 import io
 from PIL import Image
 from typing import Annotated
@@ -20,9 +20,7 @@ async def find_face_endpoint(
 ):
     imageStream = io.BytesIO(image)
     imageFile = Image.open(imageStream).convert('RGB')
-    frame_filename = "frame.jpg"
-    imageFile.save(frame_filename)
-    result = detect_face(frame_filename)
-    
-    return {"person": result}
+    person_id, bounding_box = detect_face(imageFile)
+    print ("bounding box X: ", str(bounding_box["x"]))
+    return {"person": person_id, "bounding_box": {"x": bounding_box["x"], "y": bounding_box["y"], "width": bounding_box["width"], "height": bounding_box["height"]}}
 
