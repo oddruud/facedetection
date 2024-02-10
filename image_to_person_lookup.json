@@ -5,5 +5,7 @@
     {"name": "Lucas", "photo_id": "lucas"},
     {"name": "Ralph", "photo_id": "ralph"},
     {"name": "Wietze", "photo_id": "wietze"},
-    {"name": "Ruud", "photo_id": "ruud"}
+    {"name": "Ruud", "photo_id": "ruud"},
+    {"name": "Person1", "photo_id": "person1"},
+    {"name": "Person2", "photo_id": "person2"}
 ]
