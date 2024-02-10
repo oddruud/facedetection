@@ -11,7 +11,7 @@ from PIL import Image
 from typing import Annotated
 
 app = FastAPI()
-
+active_face = None
 @app.post(
     "/find_face"
 )
@@ -21,5 +21,12 @@ async def find_face_endpoint(
     imageStream = io.BytesIO(image)
     imageFile = Image.open(imageStream).convert('RGB')
     person_id, bounding_box = detect_face(imageFile)
-    return {"person": person_id, "bounding_box": {"x": bounding_box["x"], "y": bounding_box["y"], "width": bounding_box["width"], "height": bounding_box["height"]}}
+    active_face = {"person": person_id, "bounding_box": {"x": bounding_box["x"], "y": bounding_box["y"], "width": bounding_box["width"], "height": bounding_box["height"]}}
+    return active_face
 
+
+@app.get(
+    "/get_active_face"
+)
+async def get_active_face_endpoint():
+    return active_face
