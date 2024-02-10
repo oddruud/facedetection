@@ -11,7 +11,8 @@ from PIL import Image
 from typing import Annotated
 
 app = FastAPI()
-active_face = None
+active_face = {"person": None, "bounding_box": {"x": None, "y": None, "width": None, "height": None}}
+
 @app.post(
     "/find_face"
 )
