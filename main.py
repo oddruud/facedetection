@@ -12,6 +12,7 @@ from typing import Annotated
 
 app = FastAPI()
 
+#do face detection
 @app.post(
     "/find_face"
 )
